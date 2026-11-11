@@ -1,21 +1,14 @@
-
 name: Build KRATOS AI APK
 
-on:
+'on':
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: Extract project
-        run: |
-          unzip -o KRATOS-AI-Builder.zip -d project
-          find project -name settings.gradle.kts -o -name settings.gradle
 
       - name: Set up Java
         uses: actions/setup-java@v4
@@ -28,6 +21,9 @@ jobs:
         with:
           gradle-version: '8.9'
 
+      - name: Extract project
+        run: unzip -o KRATOS-AI-Builder.zip -d project
+
       - name: Build APK
         run: gradle -p project/android :app:assembleDebug
 
@@ -36,4 +32,3 @@ jobs:
         with:
           name: KRATOS-AI-APK
           path: project/android/app/build/outputs/apk/debug/app-debug.apk
-          
